@@ -35,61 +35,51 @@ class RemoteRepository {
     @SuppressLint("CheckResult")
     fun getAllMovies(callback: LoadMoviesCallback) {
 
-        val movieList = mutableListOf<ResultMovie>()
-
         apiService.getDiscoverMovies(API_KEY)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(object : Observer<Movies> {
-                override fun onComplete() {
-                    Log.d("onComplete", "complete")
-                }
-
                 override fun onSubscribe(d: Disposable) {
                     compositeDisposable.add(d)
                 }
 
                 override fun onNext(t: Movies) {
-                    movieList.addAll(t.resultMovies)
+                    callback.onAllMoviesReceived(t.resultMovies)
                 }
 
                 override fun onError(e: Throwable) {
                     e.printStackTrace()
                 }
 
+                override fun onComplete() {
+                    Log.d("onComplete", "complete")
+                }
             })
-
-        callback.onAllMoviesReceived(movieList)
     }
 
     @SuppressLint("CheckResult")
     fun getAllTVShows(callback: LoadTVShowsCallback) {
 
-        val tvShowList = mutableListOf<ResultTVShows>()
-
         apiService.getDiscoverTV(API_KEY)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(object : Observer<TVShows> {
-                override fun onComplete() {
-                    Log.d("onComplete", "complete")
-                }
-
                 override fun onSubscribe(d: Disposable) {
                     compositeDisposable.add(d)
                 }
 
                 override fun onNext(t: TVShows) {
-                    tvShowList.addAll(t.resultTVShows)
+                    callback.onAllTVShowsReceived(t.resultTVShows)
                 }
 
                 override fun onError(e: Throwable) {
                     e.printStackTrace()
                 }
 
+                override fun onComplete() {
+                    Log.d("onComplete", "complete")
+                }
             })
-
-        callback.onAllTVShowsReceived(tvShowList)
     }
 
     fun onDestroy() {

@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName
 data class TVShows(
     @SerializedName("page")
     val page: Int,
-    @SerializedName("result")
+    @SerializedName("results")
     val resultTVShows: MutableList<ResultTVShows>,
     @SerializedName("total_pages")
     val totalPages: Int,
