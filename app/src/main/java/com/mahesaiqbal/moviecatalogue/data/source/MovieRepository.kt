@@ -4,6 +4,8 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.mahesaiqbal.moviecatalogue.data.source.remote.RemoteRepository
+import com.mahesaiqbal.moviecatalogue.data.source.remote.response.detailmovie.DetailMovie
+import com.mahesaiqbal.moviecatalogue.data.source.remote.response.detailtv.DetailTV
 import com.mahesaiqbal.moviecatalogue.data.source.remote.response.movies.ResultMovie
 import com.mahesaiqbal.moviecatalogue.data.source.remote.response.tvshows.ResultTVShows
 
@@ -57,5 +59,39 @@ class MovieRepository(var remoteRepository: RemoteRepository) : MovieDataSource 
         })
 
         return tvShowResults
+    }
+
+    override fun getDetailMovie(movieId: Int): LiveData<DetailMovie> {
+        val movieResult: MutableLiveData<DetailMovie> = MutableLiveData()
+
+        remoteRepository.getDetailMovie(movieId, object : RemoteRepository.LoadDetailMovie {
+            override fun onDetailMovieReceived(detailMovie: DetailMovie) {
+                movieResult.postValue(detailMovie)
+            }
+
+            override fun onDataNotAvailable() {
+
+            }
+
+        })
+
+        return movieResult
+    }
+
+    override fun getDetailTV(tvId: Int): LiveData<DetailTV> {
+        val tvResult: MutableLiveData<DetailTV> = MutableLiveData()
+
+        remoteRepository.getDetailTV(tvId, object : RemoteRepository.LoadDetailTV {
+            override fun onDetailMovieReceived(detailTV: DetailTV) {
+                tvResult.postValue(detailTV)
+            }
+
+            override fun onDataNotAvailable() {
+
+            }
+
+        })
+
+        return tvResult
     }
 }

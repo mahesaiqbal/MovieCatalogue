@@ -52,4 +52,5 @@ ext {
     rxAndroidVersion = '2.1.1'
     retrofitVersion = '2.5.0'
     okHttp3Version = '3.12.1'
+    mockitoKotlinVersion = '2.1.0'
 }

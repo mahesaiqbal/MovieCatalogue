@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.mahesaiqbal.moviecatalogue.R
 import com.mahesaiqbal.moviecatalogue.data.source.remote.response.tvshows.ResultTVShows
-import com.mahesaiqbal.moviecatalogue.ui.detail.DetailActivity
+import com.mahesaiqbal.moviecatalogue.ui.detail.DetailTVActivity
 import com.mahesaiqbal.moviecatalogue.viewmodel.ViewModelFactory
 import kotlinx.android.synthetic.main.fragment_tvshows.*
 
@@ -68,9 +68,8 @@ class TVShowsFragment : Fragment(), TVShowsAdapter.TVShowsFragmentCallback {
     }
 
     override fun onItemClick(tvShows: ResultTVShows) {
-//        val intent = Intent(activity, DetailActivity::class.java)
-//        intent.putExtra("from", "TVShowsFragment")
-//        intent.putExtra("title_movie", tvShows.title)
-//        startActivity(intent)
+        val intent = Intent(activity, DetailTVActivity::class.java)
+        intent.putExtra("tv_id", tvShows.id)
+        startActivity(intent)
     }
 }

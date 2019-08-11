@@ -5,6 +5,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider.NewInstanceFactory
 import com.mahesaiqbal.moviecatalogue.data.source.MovieRepository
 import com.mahesaiqbal.moviecatalogue.di.Injection
+import com.mahesaiqbal.moviecatalogue.ui.detail.DetailMovieViewModel
+import com.mahesaiqbal.moviecatalogue.ui.detail.DetailTVViewModel
 import com.mahesaiqbal.moviecatalogue.ui.movie.MoviesViewModel
 import com.mahesaiqbal.moviecatalogue.ui.tvshow.TVShowsViewModel
 
@@ -33,6 +35,10 @@ class ViewModelFactory(movieRepository: MovieRepository) : NewInstanceFactory() 
             return MoviesViewModel(mMovieRepository) as T
         } else if (modelClass.isAssignableFrom(TVShowsViewModel::class.java)) {
             return TVShowsViewModel(mMovieRepository) as T
+        } else if (modelClass.isAssignableFrom(DetailMovieViewModel::class.java)) {
+            return DetailMovieViewModel(mMovieRepository) as T
+        } else if (modelClass.isAssignableFrom(DetailTVViewModel::class.java)) {
+            return DetailTVViewModel(mMovieRepository) as T
         }
 
         throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)

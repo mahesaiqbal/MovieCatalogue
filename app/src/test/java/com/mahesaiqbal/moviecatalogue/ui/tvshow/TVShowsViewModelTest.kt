@@ -8,21 +8,21 @@ import org.junit.Test
 
 class TVShowsViewModelTest {
 
-    var viewModel: TVShowsViewModel? = null
-
-    @Before
-    fun setUp() {
-        viewModel = TVShowsViewModel()
-    }
-
-    @After
-    fun tearDown() {
-    }
-
-    @Test
-    fun getTVShows() {
-        val tvShowsList: List<TVShows> = viewModel!!.getTVShows()
-        assertNotNull(tvShowsList)
-        assertEquals(10, tvShowsList.size)
-    }
+//    var viewModel: TVShowsViewModel? = null
+//
+//    @Before
+//    fun setUp() {
+//        viewModel = TVShowsViewModel()
+//    }
+//
+//    @After
+//    fun tearDown() {
+//    }
+//
+//    @Test
+//    fun getTVShows() {
+//        val tvShowsList: List<TVShows> = viewModel!!.getTVShows()
+//        assertNotNull(tvShowsList)
+//        assertEquals(10, tvShowsList.size)
+//    }
 }

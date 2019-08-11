@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.mahesaiqbal.moviecatalogue.R
 import com.mahesaiqbal.moviecatalogue.data.source.remote.response.movies.ResultMovie
-import com.mahesaiqbal.moviecatalogue.ui.detail.DetailActivity
+import com.mahesaiqbal.moviecatalogue.ui.detail.DetailMovieActivity
 import com.mahesaiqbal.moviecatalogue.ui.movie.MoviesAdapter.MoviesFragmentCallback
 import com.mahesaiqbal.moviecatalogue.viewmodel.ViewModelFactory
 import kotlinx.android.synthetic.main.fragment_movies.*
@@ -69,9 +69,8 @@ class MoviesFragment : Fragment(), MoviesFragmentCallback {
     }
 
     override fun onItemClick(movies: ResultMovie) {
-//        val intent = Intent(activity, DetailActivity::class.java)
-//        intent.putExtra("from", "MoviesFragment")
-//        intent.putExtra("title_movie", movies.title)
-//        startActivity(intent)
+        val intent = Intent(activity, DetailMovieActivity::class.java)
+        intent.putExtra("movie_id", movies.id)
+        startActivity(intent)
     }
 }
