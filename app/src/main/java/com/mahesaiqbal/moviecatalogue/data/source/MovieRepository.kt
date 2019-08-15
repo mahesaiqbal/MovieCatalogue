@@ -27,13 +27,12 @@ class MovieRepository(var remoteRepository: RemoteRepository) : MovieDataSource 
         }
     }
 
-    override fun getAllMovies(): LiveData<MutableList<ResultMovie>> {
+    override fun getAllMovies(): MutableLiveData<MutableList<ResultMovie>> {
         val movieResults: MutableLiveData<MutableList<ResultMovie>> = MutableLiveData()
 
         remoteRepository.getAllMovies(object : RemoteRepository.LoadMoviesCallback {
             override fun onAllMoviesReceived(movies: MutableList<ResultMovie>) {
                 movieResults.postValue(movies)
-                Log.d("moviesSize", movies.size.toString())
             }
 
             override fun onDataNotAvailable() {

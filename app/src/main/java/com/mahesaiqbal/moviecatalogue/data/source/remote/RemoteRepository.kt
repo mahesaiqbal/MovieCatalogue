@@ -1,6 +1,5 @@
 package com.mahesaiqbal.moviecatalogue.data.source.remote
 
-import android.annotation.SuppressLint
 import android.util.Log
 import com.mahesaiqbal.moviecatalogue.data.source.remote.response.detailmovie.DetailMovie
 import com.mahesaiqbal.moviecatalogue.data.source.remote.response.detailtv.DetailTV
@@ -8,7 +7,6 @@ import com.mahesaiqbal.moviecatalogue.data.source.remote.response.movies.Movies
 import com.mahesaiqbal.moviecatalogue.data.source.remote.response.movies.ResultMovie
 import com.mahesaiqbal.moviecatalogue.data.source.remote.response.tvshows.ResultTVShows
 import com.mahesaiqbal.moviecatalogue.data.source.remote.response.tvshows.TVShows
-import com.mahesaiqbal.moviecatalogue.network.ApiObserver
 import com.mahesaiqbal.moviecatalogue.network.Client
 import com.mahesaiqbal.moviecatalogue.utils.EspressoIdlingResource
 import io.reactivex.Observer
@@ -36,7 +34,6 @@ class RemoteRepository {
     val API_KEY = "49a79f125a171a70aafeaefdc6f406b8"
 
     fun getAllMovies(callback: LoadMoviesCallback) {
-        EspressoIdlingResource.increment()
 
         apiService.getDiscoverMovies(API_KEY)
             .subscribeOn(Schedulers.io())
@@ -48,7 +45,6 @@ class RemoteRepository {
 
                 override fun onNext(t: Movies) {
                     callback.onAllMoviesReceived(t.resultMovies)
-                    EspressoIdlingResource.decrement()
                 }
 
                 override fun onError(e: Throwable) {
@@ -56,7 +52,6 @@ class RemoteRepository {
                 }
 
                 override fun onComplete() {
-                    Log.d("onComplete", "complete")
                 }
             })
     }
