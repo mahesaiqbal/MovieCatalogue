@@ -43,13 +43,12 @@ class MovieRepository(var remoteRepository: RemoteRepository) : MovieDataSource 
         return movieResults
     }
 
-    override fun getAllTVShows(): LiveData<MutableList<ResultTVShows>> {
+    override fun getAllTVShows(): MutableLiveData<MutableList<ResultTVShows>> {
         val tvShowResults: MutableLiveData<MutableList<ResultTVShows>> = MutableLiveData()
 
         remoteRepository.getAllTVShows(object : RemoteRepository.LoadTVShowsCallback {
             override fun onAllTVShowsReceived(tvShows: MutableList<ResultTVShows>) {
                 tvShowResults.postValue(tvShows)
-                Log.d("tvShowsSize", tvShows.size.toString())
             }
 
             override fun onDataNotAvailable() {
@@ -60,7 +59,7 @@ class MovieRepository(var remoteRepository: RemoteRepository) : MovieDataSource 
         return tvShowResults
     }
 
-    override fun getDetailMovie(movieId: Int): LiveData<DetailMovie> {
+    override fun getDetailMovie(movieId: Int): MutableLiveData<DetailMovie> {
         val movieResult: MutableLiveData<DetailMovie> = MutableLiveData()
 
         remoteRepository.getDetailMovie(movieId, object : RemoteRepository.LoadDetailMovie {
@@ -77,7 +76,7 @@ class MovieRepository(var remoteRepository: RemoteRepository) : MovieDataSource 
         return movieResult
     }
 
-    override fun getDetailTV(tvId: Int): LiveData<DetailTV> {
+    override fun getDetailTV(tvId: Int): MutableLiveData<DetailTV> {
         val tvResult: MutableLiveData<DetailTV> = MutableLiveData()
 
         remoteRepository.getDetailTV(tvId, object : RemoteRepository.LoadDetailTV {

@@ -48,7 +48,7 @@ class TVShowsFragment : Fragment(), TVShowsAdapter.TVShowsFragmentCallback {
 
             tvShowsAdapter = TVShowsAdapter(activity!!, tvShows, this)
 
-            viewModel.getTVShows().observe(this, getTVShow)
+            viewModel.getAllTVShows().observe(this, getTVShow)
         }
     }
 

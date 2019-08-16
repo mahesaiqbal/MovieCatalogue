@@ -34,6 +34,7 @@ class RemoteRepository {
     val API_KEY = "49a79f125a171a70aafeaefdc6f406b8"
 
     fun getAllMovies(callback: LoadMoviesCallback) {
+        EspressoIdlingResource.increment()
 
         apiService.getDiscoverMovies(API_KEY)
             .subscribeOn(Schedulers.io())
@@ -45,6 +46,7 @@ class RemoteRepository {
 
                 override fun onNext(t: Movies) {
                     callback.onAllMoviesReceived(t.resultMovies)
+                    EspressoIdlingResource.decrement()
                 }
 
                 override fun onError(e: Throwable) {
@@ -77,7 +79,6 @@ class RemoteRepository {
                 }
 
                 override fun onComplete() {
-                    Log.d("onComplete", "complete")
                 }
             })
     }
@@ -103,7 +104,6 @@ class RemoteRepository {
                 }
 
                 override fun onComplete() {
-                    Log.d("onComplete", "complete")
                 }
             })
     }
@@ -129,7 +129,6 @@ class RemoteRepository {
                 }
 
                 override fun onComplete() {
-                    Log.d("onComplete", "complete")
                 }
             })
     }

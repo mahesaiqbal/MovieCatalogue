@@ -1,6 +1,7 @@
 package com.mahesaiqbal.moviecatalogue.ui.tvshow
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.mahesaiqbal.moviecatalogue.data.source.MovieRepository
 import com.mahesaiqbal.moviecatalogue.data.source.remote.RemoteRepository
@@ -11,7 +12,13 @@ class TVShowsViewModel(var movieRepository: MovieRepository) : ViewModel() {
 
     private val remoteRepository = RemoteRepository()
 
-    fun getTVShows(): LiveData<MutableList<ResultTVShows>> = movieRepository.getAllTVShows()
+    var tvShow = MutableLiveData<MutableList<ResultTVShows>>()
+
+    fun getAllTVShows(): MutableLiveData<MutableList<ResultTVShows>> = movieRepository.getAllTVShows()
+
+    fun getTVShows() {
+        tvShow = movieRepository.getAllTVShows()
+    }
 
     override fun onCleared() {
         super.onCleared()

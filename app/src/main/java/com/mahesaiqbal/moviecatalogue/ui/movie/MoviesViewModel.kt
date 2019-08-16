@@ -12,6 +12,8 @@ class MoviesViewModel(var movieRepository: MovieRepository) : ViewModel() {
 
     var movie = MutableLiveData<MutableList<ResultMovie>>()
 
+    fun getAllMovies(): MutableLiveData<MutableList<ResultMovie>> = movieRepository.getAllMovies()
+
     fun getMovies() {
         movie = movieRepository.getAllMovies()
     }

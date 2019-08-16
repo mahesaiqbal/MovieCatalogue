@@ -49,7 +49,7 @@ class MoviesFragment : Fragment(), MoviesFragmentCallback {
 
             moviesAdapter = MoviesAdapter(activity!!, movies, this)
 
-            viewModel.movie.observe(this, getMovie)
+            viewModel.getAllMovies().observe(this, getMovie)
         }
     }
 

@@ -4,54 +4,18 @@ package com.mahesaiqbal.moviecatalogue.data.source.remote.response.detailmovie
 import com.google.gson.annotations.SerializedName
 
 data class DetailMovie(
-    @SerializedName("adult")
-    val adult: Boolean,
     @SerializedName("backdrop_path")
-    val backdropPath: String,
-    @SerializedName("belongs_to_collection")
-    val belongsToCollection: Any,
-    @SerializedName("budget")
-    val budget: Int,
-    @SerializedName("genres")
-    val genres: List<Genre>,
-    @SerializedName("homepage")
-    val homepage: String,
+    val backdropPath: String? = null,
     @SerializedName("id")
-    val id: Int,
-    @SerializedName("imdb_id")
-    val imdbId: String,
-    @SerializedName("original_language")
-    val originalLanguage: String,
+    val id: Int? = null,
     @SerializedName("original_title")
-    val originalTitle: String,
+    val originalTitle: String? = null,
     @SerializedName("overview")
-    val overview: String,
-    @SerializedName("popularity")
-    val popularity: Double,
+    val overview: String? = null,
     @SerializedName("poster_path")
-    val posterPath: String,
-    @SerializedName("production_companies")
-    val productionCompanies: List<ProductionCompany>,
-    @SerializedName("production_countries")
-    val productionCountries: List<ProductionCountry>,
+    val posterPath: String? = null,
     @SerializedName("release_date")
-    val releaseDate: String,
-    @SerializedName("revenue")
-    val revenue: Int,
-    @SerializedName("runtime")
-    val runtime: Int,
-    @SerializedName("spoken_languages")
-    val spokenLanguages: List<SpokenLanguage>,
-    @SerializedName("status")
-    val status: String,
-    @SerializedName("tagline")
-    val tagline: String,
+    val releaseDate: String? = null,
     @SerializedName("title")
-    val title: String,
-    @SerializedName("video")
-    val video: Boolean,
-    @SerializedName("vote_average")
-    val voteAverage: Double,
-    @SerializedName("vote_count")
-    val voteCount: Int
+    val title: String? = null
 )
