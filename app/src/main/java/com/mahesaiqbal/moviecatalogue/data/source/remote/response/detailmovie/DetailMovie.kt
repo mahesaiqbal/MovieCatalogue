@@ -4,8 +4,6 @@ package com.mahesaiqbal.moviecatalogue.data.source.remote.response.detailmovie
 import com.google.gson.annotations.SerializedName
 
 data class DetailMovie(
-    @SerializedName("backdrop_path")
-    val backdropPath: String? = null,
     @SerializedName("id")
     val id: Int? = null,
     @SerializedName("original_title")

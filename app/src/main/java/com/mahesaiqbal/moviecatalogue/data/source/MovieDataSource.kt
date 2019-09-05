@@ -1,18 +1,27 @@
 package com.mahesaiqbal.moviecatalogue.data.source
 
 import androidx.lifecycle.LiveData
-import com.mahesaiqbal.moviecatalogue.data.source.remote.response.detailmovie.DetailMovie
-import com.mahesaiqbal.moviecatalogue.data.source.remote.response.detailtv.DetailTV
-import com.mahesaiqbal.moviecatalogue.data.source.remote.response.movies.ResultMovie
-import com.mahesaiqbal.moviecatalogue.data.source.remote.response.tvshows.ResultTVShows
+import com.mahesaiqbal.moviecatalogue.data.source.local.entity.detailmovieentity.DetailMovieEntity
+import com.mahesaiqbal.moviecatalogue.data.source.local.entity.detailtventity.DetailTVEntity
+import com.mahesaiqbal.moviecatalogue.data.source.local.entity.movieentity.ResultMovieEntity
+import com.mahesaiqbal.moviecatalogue.data.source.local.entity.tvshowentity.ResultTVShowEntity
+import com.mahesaiqbal.moviecatalogue.vo.Resource
 
 interface MovieDataSource {
 
-    fun getAllMovies(): LiveData<MutableList<ResultMovie>>
+    fun getAllMovies(): LiveData<Resource<MutableList<ResultMovieEntity>>>
 
-    fun getAllTVShows(): LiveData<MutableList<ResultTVShows>>
+    fun getAllFavoriteMovies(): LiveData<Resource<MutableList<ResultMovieEntity>>>
 
-    fun getDetailMovie(movieId: Int): LiveData<DetailMovie>
+    fun getAllTVShows(): LiveData<Resource<MutableList<ResultTVShowEntity>>>
 
-    fun getDetailTV(tvId: Int): LiveData<DetailTV>
+    fun getAllFavoriteTVShows(): LiveData<Resource<MutableList<ResultTVShowEntity>>>
+
+    fun getDetailMovie(movieId: Int): LiveData<Resource<DetailMovieEntity>>
+
+    fun getDetailTV(tvId: Int): LiveData<Resource<DetailTVEntity>>
+
+    fun setMovieFavorite(movie: ResultMovieEntity, state: Boolean)
+
+    fun setTVShowFavorite(tvShow: ResultTVShowEntity, detailTV: DetailTVEntity, state: Boolean)
 }

@@ -18,7 +18,7 @@ class DetailTVActivity : AppCompatActivity() {
 
     companion object {
         fun obtainViewModel(activity: AppCompatActivity): DetailTVViewModel {
-            val factory = ViewModelFactory.getInstance()
+            val factory = ViewModelFactory.getInstance(activity.application)
             return ViewModelProviders.of(activity, factory).get(DetailTVViewModel::class.java)
         }
     }
@@ -43,7 +43,7 @@ class DetailTVActivity : AppCompatActivity() {
             }
         }
 
-        viewModel.getTV().observe(this, getDetailTV)
+//        viewModel.getTV().observe(this, getDetailTV)
     }
 
     private val getDetailTV = Observer<DetailTV> { detailTV ->

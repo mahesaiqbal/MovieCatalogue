@@ -9,11 +9,12 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.mahesaiqbal.moviecatalogue.R
+import com.mahesaiqbal.moviecatalogue.data.source.local.entity.movieentity.ResultMovieEntity
 import com.mahesaiqbal.moviecatalogue.data.source.remote.response.movies.ResultMovie
 import com.mahesaiqbal.moviecatalogue.ui.movie.MoviesAdapter.MoviesViewHolder
 import kotlinx.android.synthetic.main.item_movie.view.*
 
-class MoviesAdapter(var activity: Activity, var movies: MutableList<ResultMovie>, var callback: MoviesFragmentCallback) : Adapter<MoviesViewHolder>() {
+class MoviesAdapter(var activity: Activity, var movies: MutableList<ResultMovieEntity>, var callback: MoviesFragmentCallback) : Adapter<MoviesViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MoviesViewHolder
             = MoviesViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_movie, parent, false))
@@ -26,7 +27,7 @@ class MoviesAdapter(var activity: Activity, var movies: MutableList<ResultMovie>
 
     inner class MoviesViewHolder(itemView: View) : ViewHolder(itemView) {
 
-        fun bindItem(movies: ResultMovie, callback: MoviesFragmentCallback) {
+        fun bindItem(movies: ResultMovieEntity, callback: MoviesFragmentCallback) {
             itemView.tv_title.text = movies.title
             itemView.tv_overview.text = movies.overview
             itemView.tv_release_date.text = movies.releaseDate
@@ -42,6 +43,6 @@ class MoviesAdapter(var activity: Activity, var movies: MutableList<ResultMovie>
     }
 
     interface MoviesFragmentCallback {
-        fun onItemClick(movies: ResultMovie)
+        fun onItemClick(movies: ResultMovieEntity)
     }
 }

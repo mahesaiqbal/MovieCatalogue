@@ -6,16 +6,20 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.mahesaiqbal.moviecatalogue.R
+import com.mahesaiqbal.moviecatalogue.data.source.local.entity.movieentity.ResultMovieEntity
 import com.mahesaiqbal.moviecatalogue.data.source.remote.response.movies.ResultMovie
 import com.mahesaiqbal.moviecatalogue.ui.detail.DetailMovieActivity
 import com.mahesaiqbal.moviecatalogue.ui.movie.MoviesAdapter.MoviesFragmentCallback
 import com.mahesaiqbal.moviecatalogue.viewmodel.ViewModelFactory
+import com.mahesaiqbal.moviecatalogue.vo.Resource
+import com.mahesaiqbal.moviecatalogue.vo.Status.*
 import kotlinx.android.synthetic.main.fragment_movies.*
 
 class MoviesFragment : Fragment(), MoviesFragmentCallback {
@@ -23,11 +27,11 @@ class MoviesFragment : Fragment(), MoviesFragmentCallback {
     lateinit var moviesAdapter: MoviesAdapter
     lateinit var viewModel: MoviesViewModel
 
-    var movies: MutableList<ResultMovie> = mutableListOf()
+    var movies: MutableList<ResultMovieEntity> = mutableListOf()
 
     companion object {
         fun obtainViewModel(activity: FragmentActivity): MoviesViewModel {
-            val factory = ViewModelFactory.getInstance()
+            val factory = ViewModelFactory.getInstance(activity.application)
             return ViewModelProviders.of(activity, factory).get(MoviesViewModel::class.java)
         }
     }
@@ -49,26 +53,37 @@ class MoviesFragment : Fragment(), MoviesFragmentCallback {
 
             moviesAdapter = MoviesAdapter(activity!!, movies, this)
 
-            viewModel.getAllMovies().observe(this, getMovie)
+            viewModel.setCategory("Movies")
+            viewModel.movies.observe(this, getMovie)
         }
     }
 
-    private val getMovie = Observer<MutableList<ResultMovie>> { resultMovie ->
+    private val getMovie = Observer<Resource<MutableList<ResultMovieEntity>>> { resultMovie ->
         if (resultMovie != null) {
-            progress_bar.visibility = View.GONE
-            moviesAdapter = MoviesAdapter(activity!!, resultMovie, this)
+            when (resultMovie.status) {
+                LOADING -> progress_bar.visibility = View.VISIBLE
+                SUCCESS -> {
+                    progress_bar.visibility = View.GONE
 
-            rv_movies.apply {
-                layoutManager = LinearLayoutManager(context)
-                setHasFixedSize(true)
-                adapter = moviesAdapter
+                    moviesAdapter = MoviesAdapter(activity!!, resultMovie.data!!, this)
+
+                    rv_movies.apply {
+                        layoutManager = LinearLayoutManager(context)
+                        setHasFixedSize(true)
+                        adapter = moviesAdapter
+                    }
+
+                    moviesAdapter.notifyDataSetChanged()
+                }
+                ERROR -> {
+                    progress_bar.visibility = View.GONE
+                    Toast.makeText(context, "Terjadi kesalahan", Toast.LENGTH_SHORT).show()
+                }
             }
-
-            moviesAdapter.notifyDataSetChanged()
         }
     }
 
-    override fun onItemClick(movies: ResultMovie) {
+    override fun onItemClick(movies: ResultMovieEntity) {
         val intent = Intent(activity, DetailMovieActivity::class.java)
         intent.putExtra("movie_id", movies.id)
         startActivity(intent)

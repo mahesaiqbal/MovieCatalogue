@@ -6,27 +6,32 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.mahesaiqbal.moviecatalogue.R
+import com.mahesaiqbal.moviecatalogue.data.source.local.entity.tvshowentity.ResultTVShowEntity
 import com.mahesaiqbal.moviecatalogue.data.source.remote.response.tvshows.ResultTVShows
 import com.mahesaiqbal.moviecatalogue.ui.detail.DetailTVActivity
 import com.mahesaiqbal.moviecatalogue.viewmodel.ViewModelFactory
+import com.mahesaiqbal.moviecatalogue.ui.tvshow.TVShowsAdapter.TVShowsFragmentCallback
+import com.mahesaiqbal.moviecatalogue.vo.Resource
+import com.mahesaiqbal.moviecatalogue.vo.Status.*
 import kotlinx.android.synthetic.main.fragment_tvshows.*
 
-class TVShowsFragment : Fragment(), TVShowsAdapter.TVShowsFragmentCallback {
+class TVShowsFragment : Fragment(), TVShowsFragmentCallback {
 
     lateinit var tvShowsAdapter: TVShowsAdapter
     lateinit var viewModel: TVShowsViewModel
 
-    var tvShows: MutableList<ResultTVShows> = mutableListOf()
+    var tvShows: MutableList<ResultTVShowEntity> = mutableListOf()
 
     companion object {
         fun obtainViewModel(activity: FragmentActivity): TVShowsViewModel {
-            val factory = ViewModelFactory.getInstance()
+            val factory = ViewModelFactory.getInstance(activity.application)
             return ViewModelProviders.of(activity, factory).get(TVShowsViewModel::class.java)
         }
     }
@@ -48,26 +53,37 @@ class TVShowsFragment : Fragment(), TVShowsAdapter.TVShowsFragmentCallback {
 
             tvShowsAdapter = TVShowsAdapter(activity!!, tvShows, this)
 
-            viewModel.getAllTVShows().observe(this, getTVShow)
+            viewModel.setCategory("TV Shows")
+            viewModel.tvShows.observe(this, getTVShow)
         }
     }
 
-    private val getTVShow = Observer<MutableList<ResultTVShows>> { resultTVShow ->
+    private val getTVShow = Observer<Resource<MutableList<ResultTVShowEntity>>> { resultTVShow ->
         if (resultTVShow != null) {
-            progress_bar.visibility = View.GONE
-            tvShowsAdapter = TVShowsAdapter(activity!!, resultTVShow, this)
+            when (resultTVShow.status) {
+                LOADING -> progress_bar.visibility = View.VISIBLE
+                SUCCESS -> {
+                    progress_bar.visibility = View.GONE
 
-            rv_tv_shows.apply {
-                layoutManager = LinearLayoutManager(context)
-                setHasFixedSize(true)
-                adapter = tvShowsAdapter
+                    tvShowsAdapter = TVShowsAdapter(activity!!, resultTVShow.data!!, this)
+
+                    rv_tv_shows.apply {
+                        layoutManager = LinearLayoutManager(context)
+                        setHasFixedSize(true)
+                        adapter = tvShowsAdapter
+                    }
+
+                    tvShowsAdapter.notifyDataSetChanged()
+                }
+                ERROR -> {
+                    progress_bar.visibility = View.GONE
+                    Toast.makeText(context, "Terjadi kesalahan", Toast.LENGTH_SHORT).show()
+                }
             }
-
-            tvShowsAdapter.notifyDataSetChanged()
         }
     }
 
-    override fun onItemClick(tvShows: ResultTVShows) {
+    override fun onItemClick(tvShows: ResultTVShowEntity) {
         val intent = Intent(activity, DetailTVActivity::class.java)
         intent.putExtra("tv_id", tvShows.id)
         startActivity(intent)

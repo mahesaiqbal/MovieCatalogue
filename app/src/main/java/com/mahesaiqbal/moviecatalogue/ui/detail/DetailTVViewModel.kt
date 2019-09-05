@@ -14,7 +14,7 @@ class DetailTVViewModel(var movieRepository: MovieRepository) : ViewModel() {
     var detailTV = MutableLiveData<DetailTV>()
 
     fun getTestTV() {
-        detailTV = movieRepository.getDetailTV(60735)
+//        detailTV = movieRepository.getDetailTV(60735)
     }
 
     var tvId: Int? = null
@@ -27,7 +27,7 @@ class DetailTVViewModel(var movieRepository: MovieRepository) : ViewModel() {
         return tvId!!
     }
 
-    fun getTV(): MutableLiveData<DetailTV> = movieRepository.getDetailTV(tvId!!)
+//    fun getTV(): MutableLiveData<DetailTV> = movieRepository.getDetailTV(tvId!!)
 
     override fun onCleared() {
         super.onCleared()
