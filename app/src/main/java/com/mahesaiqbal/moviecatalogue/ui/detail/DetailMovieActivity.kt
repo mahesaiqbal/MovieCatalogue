@@ -76,11 +76,10 @@ class DetailMovieActivity : AppCompatActivity() {
 
                     val state = movieFavorited.data.favorited
                     setFavoriteState(state)
-                    Toast.makeText(getApplicationContext(), movieFavorited.data.favorited.toString(), Toast.LENGTH_SHORT).show();
                 }
                 ERROR -> {
                     progress_bar.visibility = View.GONE
-                    Toast.makeText(getApplicationContext(), "Terjadi kesalahan", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Terjadi kesalahan", Toast.LENGTH_SHORT).show()
                 }
             }
         }
