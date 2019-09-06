@@ -6,17 +6,17 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "resulttvshowentities")
 data class ResultTVShowEntity(
-    @ColumnInfo(name = "firstAirDate")
-    val firstAirDate: String,
     @PrimaryKey
     @ColumnInfo(name = "id")
-    val id: Int,
+    var id: Int,
+    @ColumnInfo(name = "firstAirDate")
+    var firstAirDate: String,
     @ColumnInfo(name = "name")
-    val name: String,
+    var name: String,
     @ColumnInfo(name = "overview")
-    val overview: String,
+    var overview: String,
     @ColumnInfo(name = "posterPath")
-    val posterPath: String,
+    var posterPath: String,
     @ColumnInfo(name = "favorited")
     var favorited: Boolean = false
 )

@@ -2,8 +2,6 @@ package com.mahesaiqbal.moviecatalogue.data.source.local.room
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.mahesaiqbal.moviecatalogue.data.source.local.entity.detailmovieentity.DetailMovieEntity
-import com.mahesaiqbal.moviecatalogue.data.source.local.entity.detailtventity.DetailTVEntity
 import com.mahesaiqbal.moviecatalogue.data.source.local.entity.movieentity.ResultMovieEntity
 import com.mahesaiqbal.moviecatalogue.data.source.local.entity.tvshowentity.ResultTVShowEntity
 
@@ -23,22 +21,16 @@ interface MovieDao {
     fun getFavoritedTVShows(): LiveData<MutableList<ResultTVShowEntity>>
 
     @Query("SELECT * FROM resultmovieentities WHERE id = :id")
-    fun getDetailMovie(id: Int): LiveData<DetailMovieEntity>
+    fun getDetailMovie(id: Int): LiveData<ResultMovieEntity>
 
     @Query("SELECT * FROM resulttvshowentities WHERE id = :id")
-    fun getDetailTVShow(id: Int): LiveData<DetailTVEntity>
+    fun getDetailTVShow(id: Int): LiveData<ResultTVShowEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertMovies(movies: MutableList<ResultMovieEntity>): LongArray
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertTVShows(tvShows: MutableList<ResultTVShowEntity>): LongArray
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertDetailMovie(movie: DetailMovieEntity)
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertDetailTVShow(tvShow: DetailTVEntity)
 
     @Update(onConflict = OnConflictStrategy.FAIL)
     fun updateMovie(movie: ResultMovieEntity)

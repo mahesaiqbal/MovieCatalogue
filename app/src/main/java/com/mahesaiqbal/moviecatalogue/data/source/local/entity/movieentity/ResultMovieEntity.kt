@@ -8,15 +8,15 @@ import androidx.room.PrimaryKey
 data class ResultMovieEntity(
     @PrimaryKey
     @ColumnInfo(name = "id")
-    val id: Int,
+    var id: Int,
     @ColumnInfo(name = "overview")
-    val overview: String,
+    var overview: String,
     @ColumnInfo(name = "posterPath")
-    val posterPath: String,
+    var posterPath: String,
     @ColumnInfo(name = "releaseDate")
-    val releaseDate: String,
+    var releaseDate: String,
     @ColumnInfo(name = "title")
-    val title: String,
+    var title: String,
     @ColumnInfo(name = "favorited")
     var favorited: Boolean = false
 )

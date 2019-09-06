@@ -2,8 +2,6 @@ package com.mahesaiqbal.moviecatalogue.data.source
 
 import androidx.lifecycle.LiveData
 import com.mahesaiqbal.moviecatalogue.data.source.local.LocalRepository
-import com.mahesaiqbal.moviecatalogue.data.source.local.entity.detailmovieentity.DetailMovieEntity
-import com.mahesaiqbal.moviecatalogue.data.source.local.entity.detailtventity.DetailTVEntity
 import com.mahesaiqbal.moviecatalogue.data.source.local.entity.movieentity.ResultMovieEntity
 import com.mahesaiqbal.moviecatalogue.data.source.local.entity.tvshowentity.ResultTVShowEntity
 import com.mahesaiqbal.moviecatalogue.data.source.remote.ApiResponse
@@ -112,7 +110,7 @@ class MovieRepository(
                 for (i in data!!.indices) {
                     val response: ResultTVShows = data[i]
                     val (firstAirDate, id, name, overview, posterPath) = response
-                    val tvShow = ResultTVShowEntity(firstAirDate, id, name, overview, posterPath, false)
+                    val tvShow = ResultTVShowEntity(id, firstAirDate, name, overview, posterPath, false)
 
                     tvShowEntities.add(tvShow)
                 }
@@ -144,13 +142,13 @@ class MovieRepository(
         }.asLiveData()
     }
 
-    override fun getDetailMovie(movieId: Int): LiveData<Resource<DetailMovieEntity>> {
-        return object : NetworkBoundResource<DetailMovieEntity, DetailMovie>(appExecutors) {
-            override fun loadFromDB(): LiveData<DetailMovieEntity> {
+    override fun getDetailMovie(movieId: Int): LiveData<Resource<ResultMovieEntity>> {
+        return object : NetworkBoundResource<ResultMovieEntity, DetailMovie>(appExecutors) {
+            override fun loadFromDB(): LiveData<ResultMovieEntity> {
                 return localRepository.getDetailMovie(movieId)
             }
 
-            override fun shouldFetch(data: DetailMovieEntity): Boolean {
+            override fun shouldFetch(data: ResultMovieEntity): Boolean {
                 return data == null
             }
 
@@ -161,21 +159,21 @@ class MovieRepository(
             override fun saveCallResult(data: DetailMovie?) {
                 val detailMovie: DetailMovie = data!!
                 val (id, originalTitle, overview, posterPath, releaseDate, title) = detailMovie
-                val detailMovieEntity = DetailMovieEntity(id!!, originalTitle, overview, posterPath, releaseDate, title)
+                val detailMovieEntity = ResultMovieEntity(id!!, overview!!, posterPath!!, releaseDate!!, title!!)
 
-                localRepository.insertDetailMovie(detailMovieEntity)
+//                localRepository.insertDetailMovie(detailMovieEntity)
             }
 
         }.asLiveData()
     }
 
-    override fun getDetailTV(tvId: Int): LiveData<Resource<DetailTVEntity>> {
-        return object : NetworkBoundResource<DetailTVEntity, DetailTV>(appExecutors) {
-            override fun loadFromDB(): LiveData<DetailTVEntity> {
+    override fun getDetailTV(tvId: Int): LiveData<Resource<ResultTVShowEntity>> {
+        return object : NetworkBoundResource<ResultTVShowEntity, DetailTV>(appExecutors) {
+            override fun loadFromDB(): LiveData<ResultTVShowEntity> {
                 return localRepository.getDetailTVShow(tvId)
             }
 
-            override fun shouldFetch(data: DetailTVEntity): Boolean {
+            override fun shouldFetch(data: ResultTVShowEntity): Boolean {
                 return data == null
             }
 
@@ -186,9 +184,9 @@ class MovieRepository(
             override fun saveCallResult(data: DetailTV?) {
                 val detailTV: DetailTV = data!!
                 val (firstAirDate, name, overview, posterPath) = detailTV
-                val detailTVEntity = DetailTVEntity(tvId, firstAirDate, name, overview, posterPath)
+                val detailTVEntity = ResultTVShowEntity(tvId, firstAirDate!!, name!!, overview!!, posterPath!!)
 
-                localRepository.insertDetailTVShow(detailTVEntity)
+//                localRepository.insertDetailTVShow(detailTVEntity)
             }
 
         }.asLiveData()
@@ -200,7 +198,7 @@ class MovieRepository(
         appExecutors.diskIO().execute(runnable)
     }
 
-    override fun setTVShowFavorite(tvShow: ResultTVShowEntity, detailTV: DetailTVEntity, state: Boolean) {
+    override fun setTVShowFavorite(tvShow: ResultTVShowEntity, state: Boolean) {
         val runnable = { localRepository.setTVShowFavorite(tvShow, state) }
 
         appExecutors.diskIO().execute(runnable)

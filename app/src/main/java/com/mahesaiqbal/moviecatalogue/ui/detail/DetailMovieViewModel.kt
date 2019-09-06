@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import com.mahesaiqbal.moviecatalogue.data.source.MovieRepository
-import com.mahesaiqbal.moviecatalogue.data.source.local.entity.detailmovieentity.DetailMovieEntity
 import com.mahesaiqbal.moviecatalogue.data.source.local.entity.movieentity.ResultMovieEntity
 import com.mahesaiqbal.moviecatalogue.data.source.remote.RemoteRepository
 import com.mahesaiqbal.moviecatalogue.data.source.remote.response.detailmovie.DetailMovie
@@ -31,20 +30,17 @@ class DetailMovieViewModel(var movieRepository: MovieRepository) : ViewModel() {
 
 //    fun getMovie(): MutableLiveData<DetailMovie> = movieRepository.getDetailMovie(movieId!!)
 
-    var movieDetail: LiveData<Resource<DetailMovieEntity>> = Transformations.switchMap(movieId) {
+    var movieDetail: LiveData<Resource<ResultMovieEntity>> = Transformations.switchMap(movieId) {
             movieId -> movieRepository.getDetailMovie(movieId)
     }
 
-    fun setBookmark() {
-        if (movieDetail.value != null) {
-            val movieWithDetail: DetailMovieEntity? = movieDetail.value!!.data
+    fun setFavorite() {
+        val movieWithDetail = movieDetail.value
+        if (movieWithDetail != null) {
+            val movieEntity: ResultMovieEntity? = movieWithDetail.data
+            val newState = !movieEntity!!.favorited
 
-            if (movieWithDetail != null) {
-                val movieEntity: ResultMovieEntity? = movieWithDetail.movie
-                val newState = !movieEntity!!.favorited
-
-                movieRepository.setMovieFavorite(movieEntity, newState)
-            }
+            movieRepository.setMovieFavorite(movieEntity, newState)
         }
     }
 

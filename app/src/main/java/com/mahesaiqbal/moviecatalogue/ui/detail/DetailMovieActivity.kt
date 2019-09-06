@@ -12,7 +12,6 @@ import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.mahesaiqbal.moviecatalogue.R
-import com.mahesaiqbal.moviecatalogue.data.source.local.entity.detailmovieentity.DetailMovieEntity
 import com.mahesaiqbal.moviecatalogue.data.source.local.entity.movieentity.ResultMovieEntity
 import com.mahesaiqbal.moviecatalogue.viewmodel.ViewModelFactory
 import com.mahesaiqbal.moviecatalogue.vo.Resource
@@ -54,30 +53,30 @@ class DetailMovieActivity : AppCompatActivity() {
         viewModel.movieDetail.observe(this, getDetailMovie)
     }
 
-    private val getDetailMovie = Observer<Resource<DetailMovieEntity>> { movieWithDetail ->
+    private val getDetailMovie = Observer<Resource<ResultMovieEntity>> { movieWithDetail ->
         if (movieWithDetail != null) {
             when (movieWithDetail.status) {
                 LOADING -> progress_bar.visibility = View.VISIBLE
                 SUCCESS -> if (movieWithDetail.data != null) {
                     progress_bar.visibility = View.GONE
 
-                    populateMovie(movieWithDetail.data.movie!!)
+                    populateMovie(movieWithDetail.data)
                 }
                 ERROR -> progress_bar.visibility = View.GONE
             }
         }
     }
 
-    private val movieBookmarked = Observer<Resource<DetailMovieEntity>> { movieBookmarked ->
-        if (movieBookmarked != null) {
-            when (movieBookmarked.status) {
+    private val movieFavorited = Observer<Resource<ResultMovieEntity>> { movieFavorited ->
+        if (movieFavorited != null) {
+            when (movieFavorited.status) {
                 LOADING -> progress_bar.visibility = View.VISIBLE
-                SUCCESS -> if ( movieBookmarked.data != null) {
+                SUCCESS -> if ( movieFavorited.data != null) {
                     progress_bar.visibility = View.GONE
 
-//                    val state = movieBookmarked.data.movie!!.favorited
-                    val state = movieBookmarked.data.movie!!.favorited
-                    setBookmarkState(state)
+                    val state = movieFavorited.data.favorited
+                    setFavoriteState(state)
+                    Toast.makeText(getApplicationContext(), movieFavorited.data.favorited.toString(), Toast.LENGTH_SHORT).show();
                 }
                 ERROR -> {
                     progress_bar.visibility = View.GONE
@@ -91,14 +90,14 @@ class DetailMovieActivity : AppCompatActivity() {
         menuInflater.inflate(R.menu.menu_detail, menu)
         menuDetail = menu!!
 
-        viewModel.movieDetail.observe(this, movieBookmarked)
+        viewModel.movieDetail.observe(this, movieFavorited)
 
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         if (item?.itemId == R.id.action_favorite) {
-            viewModel.setBookmark()
+            viewModel.setFavorite()
             return true
         }
         return super.onOptionsItemSelected(item)
@@ -115,7 +114,7 @@ class DetailMovieActivity : AppCompatActivity() {
             .into(img_poster)
     }
 
-    private fun setBookmarkState(state: Boolean) {
+    private fun setFavoriteState(state: Boolean) {
         val menuItem = menuDetail.findItem(R.id.action_favorite)
         if (state) {
             menuItem.setIcon(ContextCompat.getDrawable(this, R.drawable.ic_favorite_white))
