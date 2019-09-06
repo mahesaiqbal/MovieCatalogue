@@ -38,7 +38,7 @@ class TVShowsAdapter(var activity: Activity, var tvShows: MutableList<ResultTVSh
                 .load("https://image.tmdb.org/t/p/w500${tvShows.posterPath}")
                 .override(500, 500)
                 .apply(RequestOptions.placeholderOf(R.drawable.ic_movie).error(R.drawable.ic_error))
-                .into(itemView.img_poster);
+                .into(itemView.img_poster)
         }
     }
 

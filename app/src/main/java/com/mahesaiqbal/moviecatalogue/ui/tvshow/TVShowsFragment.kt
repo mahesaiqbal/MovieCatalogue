@@ -10,21 +10,21 @@ import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.paging.PagedList
 import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.mahesaiqbal.moviecatalogue.R
 import com.mahesaiqbal.moviecatalogue.data.source.local.entity.tvshowentity.ResultTVShowEntity
-import com.mahesaiqbal.moviecatalogue.data.source.remote.response.tvshows.ResultTVShows
 import com.mahesaiqbal.moviecatalogue.ui.detail.DetailTVActivity
 import com.mahesaiqbal.moviecatalogue.viewmodel.ViewModelFactory
-import com.mahesaiqbal.moviecatalogue.ui.tvshow.TVShowsAdapter.TVShowsFragmentCallback
+import com.mahesaiqbal.moviecatalogue.ui.tvshow.TVShowsPagedAdapter.TVShowsFragmentCallback
 import com.mahesaiqbal.moviecatalogue.vo.Resource
 import com.mahesaiqbal.moviecatalogue.vo.Status.*
 import kotlinx.android.synthetic.main.fragment_tvshows.*
 
 class TVShowsFragment : Fragment(), TVShowsFragmentCallback {
 
-    lateinit var tvShowsAdapter: TVShowsAdapter
+    lateinit var tvShowsAdapter: TVShowsPagedAdapter
     lateinit var viewModel: TVShowsViewModel
 
     var tvShows: MutableList<ResultTVShowEntity> = mutableListOf()
@@ -51,28 +51,27 @@ class TVShowsFragment : Fragment(), TVShowsFragmentCallback {
 
             viewModel = obtainViewModel(activity!!)
 
-            tvShowsAdapter = TVShowsAdapter(activity!!, tvShows, this)
+            tvShowsAdapter = TVShowsPagedAdapter(this)
 
             viewModel.setCategory("TV Shows")
             viewModel.tvShows.observe(this, getTVShow)
+
+            rv_tv_shows.apply {
+                layoutManager = LinearLayoutManager(context)
+                setHasFixedSize(true)
+                adapter = tvShowsAdapter
+            }
         }
     }
 
-    private val getTVShow = Observer<Resource<MutableList<ResultTVShowEntity>>> { resultTVShow ->
+    private val getTVShow = Observer<Resource<PagedList<ResultTVShowEntity>>> { resultTVShow ->
         if (resultTVShow != null) {
             when (resultTVShow.status) {
                 LOADING -> progress_bar.visibility = View.VISIBLE
                 SUCCESS -> {
                     progress_bar.visibility = View.GONE
 
-                    tvShowsAdapter = TVShowsAdapter(activity!!, resultTVShow.data!!, this)
-
-                    rv_tv_shows.apply {
-                        layoutManager = LinearLayoutManager(context)
-                        setHasFixedSize(true)
-                        adapter = tvShowsAdapter
-                    }
-
+                    tvShowsAdapter.submitList(resultTVShow.data!!)
                     tvShowsAdapter.notifyDataSetChanged()
                 }
                 ERROR -> {

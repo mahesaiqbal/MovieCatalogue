@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
+import androidx.paging.PagedList
 import com.mahesaiqbal.moviecatalogue.data.source.MovieRepository
 import com.mahesaiqbal.moviecatalogue.data.source.local.entity.tvshowentity.ResultTVShowEntity
 import com.mahesaiqbal.moviecatalogue.data.source.remote.RemoteRepository
@@ -21,7 +22,7 @@ class TVShowsViewModel(var movieRepository: MovieRepository) : ViewModel() {
 
 //    fun getAllTVShows(): MutableLiveData<MutableList<ResultTVShows>> = movieRepository.getAllTVShows()
 
-    var tvShows = Transformations.switchMap<String, Resource<MutableList<ResultTVShowEntity>>>(
+    var tvShows = Transformations.switchMap<String, Resource<PagedList<ResultTVShowEntity>>>(
         category
     ) { movieRepository.getAllTVShows() }
 

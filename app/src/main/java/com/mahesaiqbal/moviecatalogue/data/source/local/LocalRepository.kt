@@ -1,6 +1,7 @@
 package com.mahesaiqbal.moviecatalogue.data.source.local
 
 import androidx.lifecycle.LiveData
+import androidx.paging.DataSource
 import com.mahesaiqbal.moviecatalogue.data.source.local.entity.movieentity.ResultMovieEntity
 import com.mahesaiqbal.moviecatalogue.data.source.local.entity.tvshowentity.ResultTVShowEntity
 import com.mahesaiqbal.moviecatalogue.data.source.local.room.MovieDao
@@ -18,13 +19,13 @@ class LocalRepository(val mMovieDao: MovieDao) {
         }
     }
 
-    fun getAllMovies(): LiveData<MutableList<ResultMovieEntity>> = mMovieDao.getMovies()
+    fun getAllMovies(): DataSource.Factory<Int, ResultMovieEntity> = mMovieDao.getMovies()
 
-    fun getFavoritedMovies(): LiveData<MutableList<ResultMovieEntity>> = mMovieDao.getFavoritedMovies()
+    fun getFavoritedMovies(): DataSource.Factory<Int, ResultMovieEntity> = mMovieDao.getFavoritedMovies()
 
-    fun getAllTVShows(): LiveData<MutableList<ResultTVShowEntity>> = mMovieDao.getTVShows()
+    fun getAllTVShows(): DataSource.Factory<Int, ResultTVShowEntity> = mMovieDao.getTVShows()
 
-    fun getFavoritedTVShows(): LiveData<MutableList<ResultTVShowEntity>> = mMovieDao.getFavoritedTVShows()
+    fun getFavoritedTVShows(): DataSource.Factory<Int, ResultTVShowEntity> = mMovieDao.getFavoritedTVShows()
 
     fun getDetailMovie(id: Int): LiveData<ResultMovieEntity> = mMovieDao.getDetailMovie(id)
 

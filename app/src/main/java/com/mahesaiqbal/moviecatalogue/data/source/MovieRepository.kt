@@ -1,6 +1,8 @@
 package com.mahesaiqbal.moviecatalogue.data.source
 
 import androidx.lifecycle.LiveData
+import androidx.paging.LivePagedListBuilder
+import androidx.paging.PagedList
 import com.mahesaiqbal.moviecatalogue.data.source.local.LocalRepository
 import com.mahesaiqbal.moviecatalogue.data.source.local.entity.movieentity.ResultMovieEntity
 import com.mahesaiqbal.moviecatalogue.data.source.local.entity.tvshowentity.ResultTVShowEntity
@@ -39,13 +41,13 @@ class MovieRepository(
         }
     }
 
-    override fun getAllMovies(): LiveData<Resource<MutableList<ResultMovieEntity>>> {
-        return object : NetworkBoundResource<MutableList<ResultMovieEntity>, MutableList<ResultMovie>>(appExecutors) {
-            override fun loadFromDB(): LiveData<MutableList<ResultMovieEntity>> {
-                return localRepository.getAllMovies()
+    override fun getAllMovies(): LiveData<Resource<PagedList<ResultMovieEntity>>> {
+        return object : NetworkBoundResource<PagedList<ResultMovieEntity>, MutableList<ResultMovie>>(appExecutors) {
+            override fun loadFromDB(): LiveData<PagedList<ResultMovieEntity>> {
+                return LivePagedListBuilder(localRepository.getAllMovies(), 10).build()
             }
 
-            override fun shouldFetch(data: MutableList<ResultMovieEntity>): Boolean {
+            override fun shouldFetch(data: PagedList<ResultMovieEntity>): Boolean {
                 return data == null || data.size == 0
             }
 
@@ -69,13 +71,13 @@ class MovieRepository(
         }.asLiveData()
     }
 
-    override fun getAllFavoriteMovies(): LiveData<Resource<MutableList<ResultMovieEntity>>> {
-        return object : NetworkBoundResource<MutableList<ResultMovieEntity>, MutableList<ResultMovie>>(appExecutors) {
-            override fun loadFromDB(): LiveData<MutableList<ResultMovieEntity>> {
-                return localRepository.getFavoritedMovies()
+    override fun getAllFavoriteMovies(): LiveData<Resource<PagedList<ResultMovieEntity>>> {
+        return object : NetworkBoundResource<PagedList<ResultMovieEntity>, MutableList<ResultMovie>>(appExecutors) {
+            override fun loadFromDB(): LiveData<PagedList<ResultMovieEntity>> {
+                return LivePagedListBuilder(localRepository.getFavoritedMovies(), 10).build()
             }
 
-            override fun shouldFetch(data: MutableList<ResultMovieEntity>): Boolean {
+            override fun shouldFetch(data: PagedList<ResultMovieEntity>): Boolean {
                 return false
             }
 
@@ -90,13 +92,13 @@ class MovieRepository(
         }.asLiveData()
     }
 
-    override fun getAllTVShows(): LiveData<Resource<MutableList<ResultTVShowEntity>>> {
-        return object : NetworkBoundResource<MutableList<ResultTVShowEntity>, MutableList<ResultTVShows>>(appExecutors) {
-            override fun loadFromDB(): LiveData<MutableList<ResultTVShowEntity>> {
-                return localRepository.getAllTVShows()
+    override fun getAllTVShows(): LiveData<Resource<PagedList<ResultTVShowEntity>>> {
+        return object : NetworkBoundResource<PagedList<ResultTVShowEntity>, MutableList<ResultTVShows>>(appExecutors) {
+            override fun loadFromDB(): LiveData<PagedList<ResultTVShowEntity>> {
+                return LivePagedListBuilder(localRepository.getAllTVShows(), 10).build()
             }
 
-            override fun shouldFetch(data: MutableList<ResultTVShowEntity>): Boolean {
+            override fun shouldFetch(data: PagedList<ResultTVShowEntity>): Boolean {
                 return data == null || data.size == 0
             }
 
@@ -121,13 +123,13 @@ class MovieRepository(
         }.asLiveData()
     }
 
-    override fun getAllFavoriteTVShows(): LiveData<Resource<MutableList<ResultTVShowEntity>>> {
-        return object : NetworkBoundResource<MutableList<ResultTVShowEntity>, MutableList<ResultTVShows>>(appExecutors) {
-            override fun loadFromDB(): LiveData<MutableList<ResultTVShowEntity>> {
-                return localRepository.getFavoritedTVShows()
+    override fun getAllFavoriteTVShows(): LiveData<Resource<PagedList<ResultTVShowEntity>>> {
+        return object : NetworkBoundResource<PagedList<ResultTVShowEntity>, MutableList<ResultTVShows>>(appExecutors) {
+            override fun loadFromDB(): LiveData<PagedList<ResultTVShowEntity>> {
+                return LivePagedListBuilder(localRepository.getFavoritedTVShows(), 10).build()
             }
 
-            override fun shouldFetch(data: MutableList<ResultTVShowEntity>): Boolean {
+            override fun shouldFetch(data: PagedList<ResultTVShowEntity>): Boolean {
                 return false
             }
 

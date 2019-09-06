@@ -1,19 +1,20 @@
 package com.mahesaiqbal.moviecatalogue.data.source
 
 import androidx.lifecycle.LiveData
+import androidx.paging.PagedList
 import com.mahesaiqbal.moviecatalogue.data.source.local.entity.movieentity.ResultMovieEntity
 import com.mahesaiqbal.moviecatalogue.data.source.local.entity.tvshowentity.ResultTVShowEntity
 import com.mahesaiqbal.moviecatalogue.vo.Resource
 
 interface MovieDataSource {
 
-    fun getAllMovies(): LiveData<Resource<MutableList<ResultMovieEntity>>>
+    fun getAllMovies(): LiveData<Resource<PagedList<ResultMovieEntity>>>
 
-    fun getAllFavoriteMovies(): LiveData<Resource<MutableList<ResultMovieEntity>>>
+    fun getAllFavoriteMovies(): LiveData<Resource<PagedList<ResultMovieEntity>>>
 
-    fun getAllTVShows(): LiveData<Resource<MutableList<ResultTVShowEntity>>>
+    fun getAllTVShows(): LiveData<Resource<PagedList<ResultTVShowEntity>>>
 
-    fun getAllFavoriteTVShows(): LiveData<Resource<MutableList<ResultTVShowEntity>>>
+    fun getAllFavoriteTVShows(): LiveData<Resource<PagedList<ResultTVShowEntity>>>
 
     fun getDetailMovie(movieId: Int): LiveData<Resource<ResultMovieEntity>>
 

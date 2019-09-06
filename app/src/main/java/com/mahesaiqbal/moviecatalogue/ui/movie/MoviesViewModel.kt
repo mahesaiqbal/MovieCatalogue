@@ -3,6 +3,7 @@ package com.mahesaiqbal.moviecatalogue.ui.movie
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
+import androidx.paging.PagedList
 import com.mahesaiqbal.moviecatalogue.data.source.MovieRepository
 import com.mahesaiqbal.moviecatalogue.data.source.local.entity.movieentity.ResultMovieEntity
 import com.mahesaiqbal.moviecatalogue.data.source.remote.RemoteRepository
@@ -19,7 +20,7 @@ class MoviesViewModel(var movieRepository: MovieRepository) : ViewModel() {
 
 //    fun getAllMovies(): MutableLiveData<MutableList<ResultMovie>> = movieRepository.getAllMovies()
 
-    var movies = Transformations.switchMap<String, Resource<MutableList<ResultMovieEntity>>>(
+    var movies = Transformations.switchMap<String, Resource<PagedList<ResultMovieEntity>>>(
         category
     ) { movieRepository.getAllMovies() }
 
