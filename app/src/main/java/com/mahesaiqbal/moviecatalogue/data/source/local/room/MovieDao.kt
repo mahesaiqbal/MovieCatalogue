@@ -10,19 +10,15 @@ import com.mahesaiqbal.moviecatalogue.data.source.local.entity.tvshowentity.Resu
 interface MovieDao {
 
     @Query("SELECT * FROM resultmovieentities")
-//    fun getMovies(): LiveData<MutableList<ResultMovieEntity>>
     fun getMovies(): DataSource.Factory<Int, ResultMovieEntity>
 
     @Query("SELECT * FROM resultmovieentities WHERE favorited = 1")
-//    fun getFavoritedMovies(): LiveData<MutableList<ResultMovieEntity>>
     fun getFavoritedMovies(): DataSource.Factory<Int, ResultMovieEntity>
 
     @Query("SELECT * FROM resulttvshowentities")
-//    fun getTVShows(): LiveData<MutableList<ResultTVShowEntity>>
     fun getTVShows(): DataSource.Factory<Int, ResultTVShowEntity>
 
     @Query("SELECT * FROM resulttvshowentities WHERE favorited = 1")
-//    fun getFavoritedTVShows(): LiveData<MutableList<ResultTVShowEntity>>
     fun getFavoritedTVShows(): DataSource.Factory<Int, ResultTVShowEntity>
 
     @Query("SELECT * FROM resultmovieentities WHERE id = :id")
