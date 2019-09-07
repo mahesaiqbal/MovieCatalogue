@@ -26,7 +26,7 @@ class DetailTVActivityTest {
             override fun getActivityIntent(): Intent {
                 val targetContext = InstrumentationRegistry.getInstrumentation().targetContext
                 val result = Intent(targetContext, DetailTVActivity::class.java)
-                result.putExtra("tv_id", 60735)
+                result.putExtra("tv_id", 77753)
                 return result
             }
         }
@@ -45,6 +45,6 @@ class DetailTVActivityTest {
     fun loadMovies() {
         onView(ViewMatchers.withId(R.id.tv_title)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
         onView(ViewMatchers.withId(R.id.tv_title))
-            .check(ViewAssertions.matches(ViewMatchers.withText("The Flash")))
+            .check(ViewAssertions.matches(ViewMatchers.withText("Desmontando la Historia")))
     }
 }

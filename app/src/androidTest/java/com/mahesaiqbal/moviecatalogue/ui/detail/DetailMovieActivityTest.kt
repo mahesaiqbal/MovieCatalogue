@@ -28,7 +28,7 @@ class DetailMovieActivityTest {
             override fun getActivityIntent(): Intent {
                 val targetContext = InstrumentationRegistry.getInstrumentation().targetContext
                 val result = Intent(targetContext, DetailMovieActivity::class.java)
-                result.putExtra("movie_id", 384018)
+                result.putExtra("movie_id", 429203)
                 return result
             }
         }
@@ -46,8 +46,8 @@ class DetailMovieActivityTest {
     @Test
     fun loadMovies() {
         onView(withId(R.id.tv_title)).check(matches(isDisplayed()))
-        onView(withId(R.id.tv_title)).check(matches(withText("Fast & Furious Presents: Hobbs & Shaw")))
+        onView(withId(R.id.tv_title)).check(matches(withText("The Old Man & the Gun")))
         onView(withId(R.id.tv_release_date)).check(matches(isDisplayed()))
-        onView(withId(R.id.tv_release_date)).check(matches(withText("2019-08-01")))
+        onView(withId(R.id.tv_release_date)).check(matches(withText("2018-09-28")))
     }
 }
