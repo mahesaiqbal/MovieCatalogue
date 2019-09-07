@@ -26,8 +26,6 @@ class MoviesFragment : Fragment(), MoviesFragmentCallback {
     lateinit var moviesAdapter: MoviesPagedAdapter
     lateinit var viewModel: MoviesViewModel
 
-    var movies: MutableList<ResultMovieEntity> = mutableListOf()
-
     companion object {
         fun obtainViewModel(activity: FragmentActivity): MoviesViewModel {
             val factory = ViewModelFactory.getInstance(activity.application)

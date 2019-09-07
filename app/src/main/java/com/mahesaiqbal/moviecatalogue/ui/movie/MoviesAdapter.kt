@@ -10,7 +10,6 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.mahesaiqbal.moviecatalogue.R
 import com.mahesaiqbal.moviecatalogue.data.source.local.entity.movieentity.ResultMovieEntity
-import com.mahesaiqbal.moviecatalogue.data.source.remote.response.movies.ResultMovie
 import com.mahesaiqbal.moviecatalogue.ui.movie.MoviesAdapter.MoviesViewHolder
 import kotlinx.android.synthetic.main.item_movie.view.*
 

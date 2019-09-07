@@ -10,7 +10,6 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.mahesaiqbal.moviecatalogue.R
 import com.mahesaiqbal.moviecatalogue.data.source.local.entity.tvshowentity.ResultTVShowEntity
-import com.mahesaiqbal.moviecatalogue.data.source.remote.response.tvshows.ResultTVShows
 import com.mahesaiqbal.moviecatalogue.ui.tvshow.TVShowsAdapter.TVShowsViewHolder
 import kotlinx.android.synthetic.main.item_tv_shows.view.*
 

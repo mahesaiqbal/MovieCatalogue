@@ -1,6 +1,5 @@
 package com.mahesaiqbal.moviecatalogue.ui.tvshow
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
@@ -9,7 +8,6 @@ import com.mahesaiqbal.moviecatalogue.data.source.MovieRepository
 import com.mahesaiqbal.moviecatalogue.data.source.local.entity.tvshowentity.ResultTVShowEntity
 import com.mahesaiqbal.moviecatalogue.data.source.remote.RemoteRepository
 import com.mahesaiqbal.moviecatalogue.data.source.remote.response.tvshows.ResultTVShows
-import com.mahesaiqbal.moviecatalogue.utils.DataDummy
 import com.mahesaiqbal.moviecatalogue.vo.Resource
 
 class TVShowsViewModel(var movieRepository: MovieRepository) : ViewModel() {

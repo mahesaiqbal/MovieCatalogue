@@ -162,8 +162,6 @@ class MovieRepository(
                 val detailMovie: DetailMovie = data!!
                 val (id, originalTitle, overview, posterPath, releaseDate, title) = detailMovie
                 val detailMovieEntity = ResultMovieEntity(id!!, overview!!, posterPath!!, releaseDate!!, title!!)
-
-//                localRepository.insertDetailMovie(detailMovieEntity)
             }
 
         }.asLiveData()
@@ -187,8 +185,6 @@ class MovieRepository(
                 val detailTV: DetailTV = data!!
                 val (firstAirDate, name, overview, posterPath) = detailTV
                 val detailTVEntity = ResultTVShowEntity(tvId, firstAirDate!!, name!!, overview!!, posterPath!!)
-
-//                localRepository.insertDetailTVShow(detailTVEntity)
             }
 
         }.asLiveData()

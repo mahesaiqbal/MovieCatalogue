@@ -13,7 +13,6 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.mahesaiqbal.moviecatalogue.R
 import com.mahesaiqbal.moviecatalogue.data.source.local.entity.tvshowentity.ResultTVShowEntity
-import com.mahesaiqbal.moviecatalogue.data.source.remote.response.detailtv.DetailTV
 import com.mahesaiqbal.moviecatalogue.viewmodel.ViewModelFactory
 import com.mahesaiqbal.moviecatalogue.vo.Resource
 import com.mahesaiqbal.moviecatalogue.vo.Status.*
