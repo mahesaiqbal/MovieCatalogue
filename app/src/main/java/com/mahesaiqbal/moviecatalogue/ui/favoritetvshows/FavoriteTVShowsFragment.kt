@@ -54,8 +54,7 @@ class FavoriteTVShowsFragment : Fragment(), FavoriteTVShowCallback {
 
             favTVShowAdapter = FavoriteTVShowsPagedAdapter(this)
 
-            viewModel.setCategory("Favorite TV Shows")
-            viewModel.favTVShows.observe(this, getTVShow)
+            viewModel.getAllFavoriteTVShows().observe(this, getTVShow)
 
             rv_fav_tv_shows.apply {
                 layoutManager = LinearLayoutManager(context)

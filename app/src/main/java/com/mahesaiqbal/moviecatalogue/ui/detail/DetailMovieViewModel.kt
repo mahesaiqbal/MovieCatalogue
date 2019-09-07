@@ -7,28 +7,19 @@ import androidx.lifecycle.ViewModel
 import com.mahesaiqbal.moviecatalogue.data.source.MovieRepository
 import com.mahesaiqbal.moviecatalogue.data.source.local.entity.movieentity.ResultMovieEntity
 import com.mahesaiqbal.moviecatalogue.data.source.remote.RemoteRepository
-import com.mahesaiqbal.moviecatalogue.data.source.remote.response.detailmovie.DetailMovie
 import com.mahesaiqbal.moviecatalogue.vo.Resource
 
 class DetailMovieViewModel(var movieRepository: MovieRepository) : ViewModel() {
 
     private val remoteRepository = RemoteRepository()
 
-    var detailMovie = MutableLiveData<DetailMovie>()
-
     var movieId: MutableLiveData<Int> = MutableLiveData()
-
-//    fun getTestMovie() {
-//        detailMovie = movieRepository.getDetailMovie(384018)
-//    }
 
     fun setMovieIdValue(id: Int) {
         movieId.value = id
     }
 
-    fun getMovieIdValue(): Int = movieId.value!!
-
-//    fun getMovie(): MutableLiveData<DetailMovie> = movieRepository.getDetailMovie(movieId!!)
+    fun getDetailMovieTest(): LiveData<Resource<ResultMovieEntity>> = movieRepository.getDetailMovie(429203)
 
     var movieDetail: LiveData<Resource<ResultMovieEntity>> = Transformations.switchMap(movieId) {
             movieId -> movieRepository.getDetailMovie(movieId)

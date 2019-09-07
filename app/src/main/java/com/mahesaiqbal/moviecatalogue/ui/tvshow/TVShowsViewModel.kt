@@ -1,36 +1,18 @@
 package com.mahesaiqbal.moviecatalogue.ui.tvshow
 
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.paging.PagedList
 import com.mahesaiqbal.moviecatalogue.data.source.MovieRepository
 import com.mahesaiqbal.moviecatalogue.data.source.local.entity.tvshowentity.ResultTVShowEntity
 import com.mahesaiqbal.moviecatalogue.data.source.remote.RemoteRepository
-import com.mahesaiqbal.moviecatalogue.data.source.remote.response.tvshows.ResultTVShows
 import com.mahesaiqbal.moviecatalogue.vo.Resource
 
 class TVShowsViewModel(var movieRepository: MovieRepository) : ViewModel() {
 
     private val remoteRepository = RemoteRepository()
 
-    var tvShow = MutableLiveData<MutableList<ResultTVShows>>()
-
-    var category: MutableLiveData<String> = MutableLiveData()
-
-//    fun getAllTVShows(): MutableLiveData<MutableList<ResultTVShows>> = movieRepository.getAllTVShows()
-
-    var tvShows = Transformations.switchMap<String, Resource<PagedList<ResultTVShowEntity>>>(
-        category
-    ) { movieRepository.getAllTVShows() }
-
-    fun getTVShows() {
-//        tvShow = movieRepository.getAllTVShows()
-    }
-
-    fun setCategory(category: String) {
-        this.category.postValue(category)
-    }
+    fun getAllTVShows(): LiveData<Resource<PagedList<ResultTVShowEntity>>> = movieRepository.getAllTVShows()
 
     override fun onCleared() {
         super.onCleared()

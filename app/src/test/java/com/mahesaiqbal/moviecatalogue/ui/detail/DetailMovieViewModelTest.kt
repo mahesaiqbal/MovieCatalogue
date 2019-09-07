@@ -1,22 +1,20 @@
 package com.mahesaiqbal.moviecatalogue.ui.detail
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.mahesaiqbal.moviecatalogue.data.source.MovieRepository
-import com.mahesaiqbal.moviecatalogue.data.source.remote.response.detailmovie.DetailMovie
-import com.mahesaiqbal.moviecatalogue.data.source.remote.response.movies.ResultMovie
-import org.junit.After
+import com.mahesaiqbal.moviecatalogue.data.source.local.entity.movieentity.ResultMovieEntity
+import com.mahesaiqbal.moviecatalogue.vo.Resource
 import org.junit.Before
 
-import org.junit.Assert.*
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 import org.mockito.ArgumentMatchers
 import org.mockito.Mock
-import org.mockito.Mockito
 import org.mockito.Mockito.*
 import org.mockito.MockitoAnnotations
 
@@ -31,7 +29,7 @@ class DetailMovieViewModelTest {
     lateinit var movieRepository: MovieRepository
 
     @Mock
-    lateinit var observer: Observer<DetailMovie>
+    lateinit var observer: Observer<Resource<ResultMovieEntity>>
 
     private var viewModel: DetailMovieViewModel? = null
 
@@ -43,18 +41,17 @@ class DetailMovieViewModelTest {
 
     @Test
     fun getDetailMovie() {
-        var detailMovie = DetailMovie()
+        val dummyDetailMovie = MutableLiveData<Resource<ResultMovieEntity>>()
+        val resultMovie = mock(ResultMovieEntity::class.java)
 
-        val expected = MutableLiveData<DetailMovie>()
-        expected.postValue(detailMovie)
+        dummyDetailMovie.setValue(Resource.success(resultMovie))
 
-        `when`(movieRepository.getDetailMovie(ArgumentMatchers.anyInt())).thenReturn(expected)
+        `when`<LiveData<Resource<ResultMovieEntity>>>(movieRepository.getDetailMovie(ArgumentMatchers.anyInt())).thenReturn(
+            dummyDetailMovie
+        )
 
-        viewModel?.getTestMovie()
-        viewModel?.detailMovie?.observeForever(observer)
+        viewModel?.getDetailMovieTest()?.observeForever(observer)
 
-        verify(observer).onChanged(detailMovie)
-
-        assertNotNull(viewModel?.getTestMovie())
+        verify(observer).onChanged(Resource.success(resultMovie))
     }
 }

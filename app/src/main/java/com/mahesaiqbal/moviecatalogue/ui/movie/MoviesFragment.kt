@@ -37,7 +37,6 @@ class MoviesFragment : Fragment(), MoviesFragmentCallback {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_movies, container, false)
     }
 
@@ -50,8 +49,7 @@ class MoviesFragment : Fragment(), MoviesFragmentCallback {
 
             moviesAdapter = MoviesPagedAdapter(this)
 
-            viewModel.setCategory("Movies")
-            viewModel.movies.observe(this, getMovie)
+            viewModel.getAllMovies().observe(this, getMovie)
 
             rv_movies.apply {
                 layoutManager = LinearLayoutManager(context)

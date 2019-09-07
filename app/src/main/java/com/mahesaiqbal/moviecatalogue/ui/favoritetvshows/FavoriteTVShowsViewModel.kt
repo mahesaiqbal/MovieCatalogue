@@ -11,15 +11,7 @@ import com.mahesaiqbal.moviecatalogue.vo.Resource
 
 class FavoriteTVShowsViewModel(var movieRepository: MovieRepository) : ViewModel() {
 
-    var category: MutableLiveData<String> = MutableLiveData()
-
-    var favTVShows = Transformations.switchMap<String, Resource<PagedList<ResultTVShowEntity>>>(
-        category
-    ) { movieRepository.getAllFavoriteTVShows() }
-
-    fun setCategory(category: String) {
-        this.category.postValue(category)
-    }
+    fun getAllFavoriteTVShows(): LiveData<Resource<PagedList<ResultTVShowEntity>>> = movieRepository.getAllFavoriteTVShows()
 
     fun setFavorite(tvShow: ResultTVShowEntity) {
         val newState = !tvShow.favorited

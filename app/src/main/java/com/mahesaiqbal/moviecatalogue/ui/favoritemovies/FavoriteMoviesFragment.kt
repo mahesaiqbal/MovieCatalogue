@@ -54,8 +54,7 @@ class FavoriteMoviesFragment : Fragment(), FavoriteMovieCallback {
 
             favMovieAdapter = FavoriteMoviesPagedAdapter(this)
 
-            viewModel.setCategory("Favorite Movies")
-            viewModel.favMovies.observe(this, getMovie)
+            viewModel.getAllFavoriteMovies().observe(this, getMovie)
 
             rv_fav_movies.apply {
                 layoutManager = LinearLayoutManager(context)

@@ -27,8 +27,6 @@ class TVShowsFragment : Fragment(), TVShowsFragmentCallback {
     lateinit var tvShowsAdapter: TVShowsPagedAdapter
     lateinit var viewModel: TVShowsViewModel
 
-    var tvShows: MutableList<ResultTVShowEntity> = mutableListOf()
-
     companion object {
         fun obtainViewModel(activity: FragmentActivity): TVShowsViewModel {
             val factory = ViewModelFactory.getInstance(activity.application)
@@ -40,7 +38,6 @@ class TVShowsFragment : Fragment(), TVShowsFragmentCallback {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_tvshows, container, false)
     }
 
@@ -53,8 +50,7 @@ class TVShowsFragment : Fragment(), TVShowsFragmentCallback {
 
             tvShowsAdapter = TVShowsPagedAdapter(this)
 
-            viewModel.setCategory("TV Shows")
-            viewModel.tvShows.observe(this, getTVShow)
+            viewModel.getAllTVShows().observe(this, getTVShow)
 
             rv_tv_shows.apply {
                 layoutManager = LinearLayoutManager(context)

@@ -1,21 +1,21 @@
 package com.mahesaiqbal.moviecatalogue.ui.detail
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.mahesaiqbal.moviecatalogue.data.source.MovieRepository
-import com.mahesaiqbal.moviecatalogue.data.source.remote.response.detailtv.DetailTV
-import org.junit.After
+import com.mahesaiqbal.moviecatalogue.data.source.local.entity.tvshowentity.ResultTVShowEntity
+import com.mahesaiqbal.moviecatalogue.vo.Resource
 import org.junit.Before
 
-import org.junit.Assert.*
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 import org.mockito.ArgumentMatchers
 import org.mockito.Mock
-import org.mockito.Mockito
+import org.mockito.Mockito.*
 import org.mockito.Mockito.`when`
 import org.mockito.MockitoAnnotations
 
@@ -30,7 +30,7 @@ class DetailTVViewModelTest {
     lateinit var movieRepository: MovieRepository
 
     @Mock
-    lateinit var observer: Observer<DetailTV>
+    lateinit var observer: Observer<Resource<ResultTVShowEntity>>
 
     private var viewModel: DetailTVViewModel? = null
 
@@ -42,18 +42,17 @@ class DetailTVViewModelTest {
 
     @Test
     fun getDetailMovie() {
-        var detailTV = DetailTV()
+        val dummyDetailMovie = MutableLiveData<Resource<ResultTVShowEntity>>()
+        val resultMovie = mock(ResultTVShowEntity::class.java)
 
-        val expected = MutableLiveData<DetailTV>()
-        expected.postValue(detailTV)
+        dummyDetailMovie.setValue(Resource.success(resultMovie))
 
-        `when`(movieRepository.getDetailTV(ArgumentMatchers.anyInt())).thenReturn(expected)
+        `when`<LiveData<Resource<ResultTVShowEntity>>>(movieRepository.getDetailTV(ArgumentMatchers.anyInt())).thenReturn(
+            dummyDetailMovie
+        )
 
-        viewModel?.getTestTV()
-        viewModel?.detailTV?.observeForever(observer)
+        viewModel?.getDetailTVShowTest()?.observeForever(observer)
 
-        Mockito.verify(observer).onChanged(detailTV)
-
-        assertNotNull(viewModel?.getTestTV())
+        verify(observer).onChanged(Resource.success(resultMovie))
     }
 }

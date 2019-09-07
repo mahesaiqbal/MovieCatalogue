@@ -1,23 +1,26 @@
-package com.mahesaiqbal.moviecatalogue.ui.movie
+package com.mahesaiqbal.moviecatalogue.ui.favoritemovies
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
+import org.junit.Before
+
+import org.junit.Rule
+import org.junit.Test
+import org.mockito.Mockito.*
 import androidx.paging.PagedList
 import com.mahesaiqbal.moviecatalogue.data.source.MovieRepository
 import com.mahesaiqbal.moviecatalogue.data.source.local.entity.movieentity.ResultMovieEntity
 import com.mahesaiqbal.moviecatalogue.vo.Resource
-import org.junit.*
-
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 import org.mockito.Mock
-import org.mockito.Mockito.*
+import org.mockito.Mockito.`when`
 import org.mockito.MockitoAnnotations
 
 @RunWith(JUnit4::class)
-class MoviesViewModelTest {
+class FavoriteMoviesViewModelTest {
 
     @Rule
     @JvmField
@@ -29,26 +32,26 @@ class MoviesViewModelTest {
     @Mock
     lateinit var observer: Observer<Resource<PagedList<ResultMovieEntity>>>
 
-    private var viewModel: MoviesViewModel? = null
+    private var viewModel: FavoriteMoviesViewModel? = null
 
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
-        viewModel = MoviesViewModel(movieRepository)
+        viewModel = FavoriteMoviesViewModel(movieRepository)
     }
 
     @Test
-    fun getMovies() {
-        val dummyMovie = MutableLiveData<Resource<PagedList<ResultMovieEntity>>>()
+    fun getFavMovie() {
+        val dummyFavMovie = MutableLiveData<Resource<PagedList<ResultMovieEntity>>>()
         val pagedList = mock(PagedList::class.java) as PagedList<ResultMovieEntity>
 
-        dummyMovie.setValue(Resource.success(pagedList))
+        dummyFavMovie.setValue(Resource.success(pagedList))
 
-        `when`<LiveData<Resource<PagedList<ResultMovieEntity>>>>(movieRepository.getAllMovies()).thenReturn(
-            dummyMovie
+        `when`<LiveData<Resource<PagedList<ResultMovieEntity>>>>(movieRepository.getAllFavoriteMovies()).thenReturn(
+            dummyFavMovie
         )
 
-        viewModel?.getAllMovies()?.observeForever(observer)
+        viewModel?.getAllFavoriteMovies()?.observeForever(observer)
 
         verify(observer).onChanged(Resource.success(pagedList))
     }

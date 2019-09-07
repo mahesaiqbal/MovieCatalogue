@@ -1,20 +1,21 @@
 package com.mahesaiqbal.moviecatalogue.ui.tvshow
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
+import androidx.paging.PagedList
 import com.mahesaiqbal.moviecatalogue.data.source.MovieRepository
-import com.mahesaiqbal.moviecatalogue.data.source.remote.response.movies.ResultMovie
-import com.mahesaiqbal.moviecatalogue.data.source.remote.response.tvshows.ResultTVShows
-import org.junit.After
+import com.mahesaiqbal.moviecatalogue.data.source.local.entity.tvshowentity.ResultTVShowEntity
+import com.mahesaiqbal.moviecatalogue.vo.Resource
 import org.junit.Before
 
-import org.junit.Assert.*
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 import org.mockito.Mock
+import org.mockito.Mockito
 import org.mockito.Mockito.`when`
 import org.mockito.Mockito.verify
 import org.mockito.MockitoAnnotations
@@ -30,7 +31,7 @@ class TVShowsViewModelTest {
     lateinit var movieRepository: MovieRepository
 
     @Mock
-    lateinit var observer: Observer<MutableList<ResultTVShows>>
+    lateinit var observer: Observer<Resource<PagedList<ResultTVShowEntity>>>
 
     private var viewModel: TVShowsViewModel? = null
 
@@ -42,19 +43,17 @@ class TVShowsViewModelTest {
 
     @Test
     fun getTVShows() {
-        val dummy = mutableListOf<ResultTVShows>()
+        val dummyTV = MutableLiveData<Resource<PagedList<ResultTVShowEntity>>>()
+        val pagedList = Mockito.mock(PagedList::class.java) as PagedList<ResultTVShowEntity>
 
-        val expected = MutableLiveData<MutableList<ResultTVShows>>()
-        expected.postValue(dummy)
+        dummyTV.setValue(Resource.success(pagedList))
 
-        `when`(movieRepository.getAllTVShows()).thenReturn(expected)
+        `when`<LiveData<Resource<PagedList<ResultTVShowEntity>>>>(movieRepository.getAllTVShows()).thenReturn(
+            dummyTV
+        )
 
-        viewModel?.getTVShows()
-        viewModel?.tvShow?.observeForever(observer)
+        viewModel?.getAllTVShows()?.observeForever(observer)
 
-        verify(observer).onChanged(dummy)
-
-        assertNotNull(viewModel?.tvShow?.value)
-        assertEquals(expected.value, viewModel?.tvShow?.value)
+        verify(observer).onChanged(Resource.success(pagedList))
     }
 }
