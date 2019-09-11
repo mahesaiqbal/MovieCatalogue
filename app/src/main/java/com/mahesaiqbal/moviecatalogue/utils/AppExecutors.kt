@@ -7,17 +7,14 @@ import java.util.concurrent.Executor
 import java.util.concurrent.Executors
 
 open class AppExecutors @VisibleForTesting
-constructor(val diskIO: Executor, val networkIO: Executor, private val mainThread: Executor) {
+constructor(private val diskIO: Executor, private val networkIO: Executor, private val mainThread: Executor) {
 
     constructor() : this(
         DiskIOThreadExecutor(), Executors.newFixedThreadPool(THREAD_COUNT),
         MainThreadExecutor()
-    ) {
-    }
+    )
 
     fun diskIO(): Executor = diskIO
-
-    fun networkIO(): Executor = networkIO
 
     fun mainThread(): Executor = mainThread
 
@@ -31,7 +28,7 @@ constructor(val diskIO: Executor, val networkIO: Executor, private val mainThrea
 
     companion object {
 
-        private val THREAD_COUNT = 3
+        private const val THREAD_COUNT = 3
     }
 
 }

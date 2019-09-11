@@ -22,7 +22,7 @@ class DetailTVActivity : AppCompatActivity() {
 
     lateinit var viewModel: DetailTVViewModel
 
-    lateinit var menuDetail: Menu
+    private lateinit var menuDetail: Menu
 
     companion object {
         fun obtainViewModel(activity: AppCompatActivity): DetailTVViewModel {
@@ -85,9 +85,9 @@ class DetailTVActivity : AppCompatActivity() {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_detail, menu)
-        menuDetail = menu!!
+        menuDetail = menu
 
         viewModel.tvDetail.observe(this, tvFavorited)
 
@@ -102,7 +102,7 @@ class DetailTVActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    fun populateTV(tv: ResultTVShowEntity) {
+    private fun populateTV(tv: ResultTVShowEntity) {
         tv_title.text = tv.name
         tv_release_date.text = tv.firstAirDate
         tv_overview_value.text = tv.overview

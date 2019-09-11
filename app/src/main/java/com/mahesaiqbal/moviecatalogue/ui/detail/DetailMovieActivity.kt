@@ -22,7 +22,7 @@ class DetailMovieActivity : AppCompatActivity() {
 
     lateinit var viewModel: DetailMovieViewModel
 
-    lateinit var menuDetail: Menu
+    private lateinit var menuDetail: Menu
 
     companion object {
         fun obtainViewModel(activity: AppCompatActivity): DetailMovieViewModel {
@@ -85,9 +85,9 @@ class DetailMovieActivity : AppCompatActivity() {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_detail, menu)
-        menuDetail = menu!!
+        menuDetail = menu
 
         viewModel.movieDetail.observe(this, movieFavorited)
 
@@ -102,7 +102,7 @@ class DetailMovieActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    fun populateMovie(movie: ResultMovieEntity) {
+    private fun populateMovie(movie: ResultMovieEntity) {
         tv_title.text = movie.title
         tv_release_date.text = movie.releaseDate
         tv_overview_value.text = movie.overview

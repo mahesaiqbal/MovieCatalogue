@@ -13,10 +13,6 @@ class ApiResponse<T>(
             return ApiResponse(SUCCESS, body, null)
         }
 
-        fun <T> empty(msg: String, body: T?): ApiResponse<T> {
-            return ApiResponse(EMPTY, body, msg)
-        }
-
         fun <T> error(msg: String, body: T?): ApiResponse<T> {
             return ApiResponse(ERROR, body, msg)
         }

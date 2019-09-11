@@ -47,7 +47,7 @@ class FavoriteMoviesPagedAdapter(var callback: FavoriteMovieCallback) :
             itemView.tv_overview.text = movie.overview
             itemView.tv_release_date.text = movie.releaseDate
 
-            itemView.setOnClickListener { v -> callback.onItemClick(movie) }
+            itemView.setOnClickListener { callback.onItemClick(movie) }
 
             Glide.with(itemView.context)
                 .load("https://image.tmdb.org/t/p/w500${movie.posterPath}")

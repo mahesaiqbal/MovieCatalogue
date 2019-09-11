@@ -45,7 +45,7 @@ class TVShowsPagedAdapter(var callback: TVShowsFragmentCallback) :
             itemView.tv_overview.text = tvShow.overview
             itemView.tv_release_date.text = tvShow.firstAirDate
 
-            itemView.setOnClickListener { v -> callback.onItemClick(tvShow) }
+            itemView.setOnClickListener { callback.onItemClick(tvShow) }
 
             Glide.with(itemView.context)
                 .load("https://image.tmdb.org/t/p/w500${tvShow.posterPath}")

@@ -11,27 +11,23 @@ import com.mahesaiqbal.moviecatalogue.ui.tvshow.TVShowsFragment
 class SectionsPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
 
     override fun getItem(position: Int): Fragment? {
-        val getFragment = when (position) {
+        return when (position) {
             0 -> MoviesFragment()
             1 -> TVShowsFragment()
             2 -> FavoriteMoviesFragment()
             3 -> FavoriteTVShowsFragment()
             else -> null
         }
-
-        return getFragment
     }
 
     override fun getPageTitle(position: Int): CharSequence? {
-        val getTitle = when (position) {
+        return when (position) {
             0 -> "Movies"
             1 -> "TV Shows"
             2 -> "Favorite Movies"
             3 -> "Favorite TV Shows"
             else -> ""
         }
-
-        return getTitle
     }
 
     override fun getCount(): Int = 4
